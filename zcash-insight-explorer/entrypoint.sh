@@ -37,7 +37,7 @@ env | sort
 
 envsubst < bitcore-node.json.template > zc/bitcore-node.json
 cd zc
-bitcore-node install zcash-hackworks/insight-api-zcash zcash-hackworks/insight-ui-zcash
+bitcore-node install ZcashFR/insight-api-zcash ZcashFR/insight-ui-zcash
 
 if [[ $ZCASHD_NETWORK == 'testnet' ]];then
   sed -i 's/testnet = false/testnet = true/g' node_modules/insight-ui-zcash/public/src/js/app.js
