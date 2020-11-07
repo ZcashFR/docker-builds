@@ -1,4 +1,4 @@
-FROM debian:9
+FROM debian:10
 
 RUN apt-get update \
   && apt-get install -y gnupg2 apt-transport-https curl
@@ -14,7 +14,7 @@ ARG ZCASHD_USER=zcashd
 ARG ZCASHD_UID=2001
 
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys $ZCASH_SIGNING_KEY_ID \
-  && echo "deb [arch=amd64] https://apt.z.cash/ jessie main" > /etc/apt/sources.list.d/zcash.list \
+  && echo "deb [arch=amd64] https://apt.z.cash/ stretch main" > /etc/apt/sources.list.d/zcash.list \
   && apt-get update
 
 RUN if [ -z "$ZCASH_VERSION" ]; \

@@ -10,7 +10,7 @@ services:
       - zcash-params:/srv/zcashd/.zcash-params
       - zcash:/srv/zcashd/.zcash
   zcashd:
-    image: gcr.io/zcash-web/zcashd
+    image: .
     environment:
       - ZCASHD_NETWORK=$ZCASHD_NETWORK
       - ZCASHD_LOGIPS=$ZCASHD_LOGIPS
