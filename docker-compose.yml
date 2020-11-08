@@ -1,0 +1,67 @@
+version: '3.7'
+
+services:
+  zcash-insight-explorer:
+    image: zcashfr/zcash-insight-explorer
+    restart: ${RESTART_POLICY}
+    environment:
+      - ZCASHD_NETWORK
+      - ZCASHD_RPCUSER
+      - ZCASHD_RPCPASSWORD
+      - ZCASHD_ZMQPORT
+    ports:
+      - "8092:3001"
+
+  zcashd:
+    image: electriccoinco/zcashd
+    restart: ${RESTART_POLICY}
+    environment:
+      - ZCASHD_NETWORK
+      - ZCASHD_LOGIPS
+      - ZCASHD_EXPERIMENTALFEATURES
+      - ZCASHD_GEN
+      - ZCASHD_RPCUSER
+      - ZCASHD_RPCPASSWORD
+      - ZCASHD_RPCBIND
+      - ZCASHD_ALLOWIP
+      - ZCASHD_TXINDEX
+      - ZCASHD_INSIGHTEXPLORER
+      - ZCASHD_ZMQPORT
+      - ZCASHD_ZMQBIND
+    volumes:
+      - zcash-params:/srv/zcashd/.zcash-params
+      - zcash-insight-explorer:/srv/zcashd/.zcash
+     
+  lightwalletd:
+    image: electriccoinco/lightwalletd
+    restart: ${RESTART_POLICY}
+    environment:
+      - ZCASHD_RPCUSER
+      - ZCASHD_RPCPASSWORD
+      - ZCASHD_RPCPORT
+      - LWD_GRPC_PORT
+      - LWD_HTTP_PORT
+      - ZCASHD_CONF_PATH
+    command:
+      - --bind-addr=0.0.0.0:${LWD_GRPC_PORT}
+      - --zcash-conf-path=${ZCASHD_CONF_PATH}
+      - --no-tls-very-insecure
+      - --log-file=/dev/stdout
+      - --log-level=7
+    ports:
+      - ${LWD_GRPC_PORT}:${LWD_GRPC_PORT}
+      - ${LWD_HTTP_PORT}:${LWD_HTTP_PORT}   
+    volumes:
+      - lightwalletd_cache:/var/lib/lightwalletd
+    configs:
+      - source: zcash_conf
+        target: /srv/lightwalletd/zcash.conf
+        
+configs:        
+  zcash_conf:
+    external:
+      name: ${ZCASHD_CONF}
+volumes:
+    zcash-params:
+    zcash-insight-explorer:
+    lightwalletd_cache:
