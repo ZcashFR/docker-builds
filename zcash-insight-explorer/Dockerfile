@@ -40,7 +40,7 @@ RUN mkdir .npm-global .zcash .zcash-params
 ENV PATH=/home/$ZCASHD_USER/.npm-global/bin:$PATH
 ENV NPM_CONFIG_PREFIX=/home/$ZCASHD_USER/.npm-global
 
-RUN npm install -g npm@latest
+RUN npm install -g npm@6
 RUN npm -g install zcash-hackworks/bitcore-node-zcash
 
 RUN bitcore-node create zc
