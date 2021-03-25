@@ -3,6 +3,8 @@
     "port": 3001,
     "services": [
       "bitcoind",
+      "insight-api-zcash",
+      "insight-ui-zcash",
       "web"
     ],
     "servicesConfig": {
