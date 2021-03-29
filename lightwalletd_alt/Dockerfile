@@ -1,4 +1,4 @@
-FROM golang:1.13 AS lightwalletd_base
+FROM golang:1.16 AS lightwalletd_base
 
 RUN git clone --depth 1 \
   https://github.com/adityapk00/lightwalletd.git \
@@ -6,7 +6,7 @@ RUN git clone --depth 1 \
 WORKDIR /go/src/github.com/zcash/lightwalletd
 RUN CGO_ENABLED=0 go build -a -ldflags '-extldflags "-static"' cmd/server/main.go
 
-FROM debian:10
+FROM debian:10-slim
 
 COPY --from=lightwalletd_base \
   /go/src/github.com/zcash/lightwalletd/main \

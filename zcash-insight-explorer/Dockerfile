@@ -1,4 +1,4 @@
-FROM debian:10
+FROM debian:10-slim
 # Run 'docker build -t zcash-insight-explorer:latest .' from github clone
 # docker run -p80:3001 -v $(pwd)/dot-zcash:/home/zcashd/.zcash zcash-insight-explorer
 
