@@ -8,6 +8,10 @@ RUN CGO_ENABLED=0 go build -a -ldflags '-extldflags "-static"' cmd/server/main.g
 
 FROM debian:10-slim
 
+RUN apt-get update && apt-get install -y \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY --from=lightwalletd_base \
   /go/src/github.com/zcash/lightwalletd/main \
   /usr/bin/server
@@ -22,6 +26,8 @@ RUN useradd --home-dir /srv/$LWD_USER \
             $LWD_USER
 USER $LWD_USER
 WORKDIR /srv/$LWD_USER
+
+ADD wait-for /wait-for
 
 ENTRYPOINT ["server"]
 CMD ["--help"]
